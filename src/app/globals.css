@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* FORGE Ember tokens. Dark-first: there is no light theme. */
+@theme {
+  --color-canvas: #0a0a0a;
+  --color-surface: #141414;
+  --color-line: #262626;
+  --color-silver: #c8c4bc;
+  --color-ink: #f0f0f0;
+  --color-muted: #a0a0a8;
+  /* Accent only: the CTA and a few highlights. */
+  --color-ember: #d94020;
+
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-silver);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
