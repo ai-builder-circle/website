@@ -2,6 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./out",
+      "url": ["http://localhost/index.html"],
       "numberOfRuns": 3
     },
     "assert": {
@@ -14,7 +15,7 @@
     },
     "upload": {
       "target": "filesystem",
-      "outputDir": "./.lighthouseci"
+      "outputDir": "./lighthouse-report"
     }
   }
 }
