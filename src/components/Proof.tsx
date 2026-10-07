@@ -73,8 +73,8 @@ export function Proof() {
           position="50% 40%"
         />
         <Photo
-          src="/photos/devfest-shipped-anyway.jpg"
-          alt="A FORGE member speaks in front of a slide that reads “We started before we were ready too.”"
+          src="/photos/devfest-crew.jpg"
+          alt="FORGE members at the front of the DevFest Pretoria hall, one speaking into a microphone while the others stand by."
           sizes="(min-width: 1080px) 620px, (min-width: 640px) 60vw, 100vw"
           className="aspect-[3/2] sm:col-span-3"
           position="50% 35%"
