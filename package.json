@@ -11,7 +11,10 @@
     "serve": "serve out -l 4173 --no-clipboard",
     "test:e2e": "playwright test",
     "lighthouse": "lhci autorun",
-    "check": "npm run lint && npm run typecheck && npm run build && npm run test:e2e"
+    "check": "npm run lint && npm run typecheck && npm run build && npm run test:e2e",
+    "images": "node scripts/optimize-images.mts",
+    "predev": "npm run images",
+    "prebuild": "npm run images"
   },
   "dependencies": {
     "next": "16.4.0",
@@ -28,6 +31,7 @@
     "eslint": "^10",
     "eslint-config-next": "16.4.0",
     "serve": "14.2.6",
+    "sharp": "0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

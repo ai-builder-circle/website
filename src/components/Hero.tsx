@@ -21,6 +21,7 @@ export function Hero() {
             width={1358}
             height={163}
             preload
+            unoptimized
             className="h-auto w-[min(84vw,44rem)]"
           />
         </h1>
