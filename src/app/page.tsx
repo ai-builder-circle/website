@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { About } from "@/components/About";
 import { Hero } from "@/components/Hero";
+import { Proof } from "@/components/Proof";
 import { Section } from "@/components/Section";
 import { site } from "@/lib/site";
 
@@ -10,7 +11,7 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Section id="proof" label="Proof" />
+        <Proof />
         <Section id="builders" label="What our builders do" />
         <Section id="contact" label="Contact" />
       </main>
@@ -22,6 +23,7 @@ export default function Home() {
             alt="FORGE"
             width={1358}
             height={163}
+            unoptimized
             className="h-5 w-auto self-start"
           />
           <p className="text-sm text-muted">
