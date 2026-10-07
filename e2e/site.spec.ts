@@ -57,3 +57,10 @@ test("no horizontal scroll", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("footer wordmark keeps the logo's aspect ratio", async ({ page }) => {
+  const box = await page.locator("footer img").boundingBox();
+  expect(box).not.toBeNull();
+  // Source is 1358x163 (~8.3:1); a stretched logo would be far wider.
+  expect(box!.width / box!.height).toBeCloseTo(1358 / 163, 0);
+});
