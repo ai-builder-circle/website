@@ -2,8 +2,9 @@ import Image from "next/image";
 import { ContactButton } from "@/components/ContactButton";
 
 // The page's one motion moment: the wordmark wipes in like a bar coming off
-// the anvil, then the statement and CTA rise in. `motion-safe:` means users
-// with prefers-reduced-motion get the static, fully visible hero.
+// the anvil, then the CTA rises in. The statement is deliberately static: it
+// is the largest element on phones (the LCP), and hiding it behind a fade
+// pushed LCP to ~3s. `motion-safe:` gives reduced-motion users a static hero.
 export function Hero() {
   return (
     <section className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 py-24 text-center">
@@ -24,14 +25,14 @@ export function Hero() {
           />
         </h1>
 
-        <p className="mt-10 max-w-xl text-balance text-lg leading-relaxed text-muted motion-safe:animate-forge-rise motion-safe:[animation-delay:550ms] sm:mt-12 sm:text-xl">
+        <p className="mt-10 max-w-xl text-balance text-lg leading-relaxed text-muted sm:mt-12 sm:text-xl">
           <span className="block text-ink">
             A community of builders in Johannesburg.
           </span>{" "}
           Invite-only. You get in by what you&rsquo;ve built.
         </p>
 
-        <ContactButton className="mt-10 motion-safe:animate-forge-rise motion-safe:[animation-delay:700ms] sm:mt-12" />
+        <ContactButton className="mt-10 motion-safe:animate-forge-rise motion-safe:[animation-delay:600ms] sm:mt-12" />
       </div>
     </section>
   );

@@ -59,3 +59,11 @@ test("reduced motion: hero is static and visible immediately", async ({
     await expect(part).toHaveCSS("opacity", "1");
   }
 });
+
+test("the statement (phone LCP) is never hidden by the reveal", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.getByText(statement)).toHaveCSS("animation-name", "none");
+  await expect(page.getByText(statement)).toHaveCSS("opacity", "1");
+});
