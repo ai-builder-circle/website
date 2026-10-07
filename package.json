@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "serve": "serve out -l 4173 --no-clipboard",
+    "test:e2e": "playwright test",
+    "lighthouse": "lhci autorun",
+    "check": "npm run lint && npm run typecheck && npm run build && npm run test:e2e"
   },
   "dependencies": {
     "next": "16.4.0",
@@ -14,13 +19,19 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.64.0",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
+    "serve": "14.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }
