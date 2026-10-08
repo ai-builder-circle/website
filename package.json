@@ -14,7 +14,8 @@
     "check": "npm run lint && npm run typecheck && npm run build && npm run test:e2e",
     "images": "node scripts/optimize-images.mts",
     "predev": "npm run images",
-    "prebuild": "npm run images"
+    "prebuild": "npm run images",
+    "brand-assets": "node scripts/brand-assets.mts"
   },
   "dependencies": {
     "next": "16.4.0",
@@ -22,6 +23,7 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@lhci/cli": "0.15.1",
     "@playwright/test": "1.64.0",
     "@tailwindcss/turbopack": "^4",
