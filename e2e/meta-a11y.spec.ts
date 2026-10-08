@@ -100,3 +100,22 @@ test("keyboard: every stop shows a focus ring and isn't under the header", async
   expect(stops[0]).toBe("Get in touch");
   expect(stops.slice(-2)).toEqual(["LinkedIn", "GitHub"]);
 });
+
+test("production: canonical URL and preview image load without a redirect", async ({
+  page,
+  request,
+}) => {
+  // Only meaningful against the deployed site (BASE_URL): locally these
+  // absolute URLs would point at production, not the build under test.
+  test.skip(!process.env.BASE_URL, "production-only check");
+  await page.goto("/");
+  const urls = [
+    await page.locator('link[rel="canonical"]').getAttribute("href"),
+    await meta(page, "og:image"),
+  ];
+  for (const url of urls) {
+    // Crawlers (LinkedIn, WhatsApp) don't always follow redirects for previews.
+    const res = await request.get(url!, { maxRedirects: 0 });
+    expect(res.status(), `${url} should not redirect`).toBe(200);
+  }
+});
