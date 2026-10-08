@@ -1,0 +1,39 @@
+name: Production smoke test
+
+# Vercel reports each deployment back to GitHub. When a production deploy
+# succeeds, run the full E2E suite against the live domain, using the tests
+# from the exact commit that was deployed.
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: E2E against forgecommunity.dev
+    if: >-
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment_status.environment == 'Production'
+    runs-on: ubuntu-latest
+    env:
+      # The production domain, not the per-deploy URL: Vercel's deployment
+      # protection can put a login page in front of *.vercel.app URLs.
+      BASE_URL: https://forgecommunity.dev
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-playwright-report
+          path: playwright-report
+          retention-days: 7
