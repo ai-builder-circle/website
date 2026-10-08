@@ -14,7 +14,9 @@ test("shows the FORGE brand in the hero", async ({ page }) => {
 });
 
 test("every contact link emails the FORGE inbox", async ({ page }) => {
-  const getInTouch = page.getByRole("link", { name: "Get in touch" }).first();
+  const getInTouch = page
+    .locator("main")
+    .getByRole("link", { name: "Get in touch" });
   await expect(getInTouch).toBeVisible();
 
   const mailtos = page.locator('a[href^="mailto:"]');

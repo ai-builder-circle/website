@@ -6,7 +6,7 @@ const statement =
 const heroParts = (page: Page) => [
   page.getByRole("heading", { level: 1 }),
   page.getByText(statement),
-  page.getByRole("link", { name: "Get in touch" }).first(),
+  page.locator("main").getByRole("link", { name: "Get in touch" }),
 ];
 
 test("hero shows the locked copy with the CTA above the fold", async ({
@@ -15,7 +15,7 @@ test("hero shows the locked copy with the CTA above the fold", async ({
   await page.goto("/");
   await expect(page.getByText(statement)).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Get in touch" }).first(),
+    page.locator("main").getByRole("link", { name: "Get in touch" }),
   ).toBeInViewport();
 });
 
@@ -39,7 +39,11 @@ test("hero reveal settles fully visible", async ({ page }) => {
         () =>
           document
             .getAnimations()
-            .filter((a) => a.playState === "running").length,
+            // Time-based only: the header's scroll-linked animation never "ends".
+            .filter(
+              (a) =>
+                a.timeline === document.timeline && a.playState === "running",
+            ).length,
       ),
     )
     .toBe(0);
