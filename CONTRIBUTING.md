@@ -23,6 +23,7 @@
 | Lighthouse | GitHub Actions | Performance and accessibility must score ≥ 90 (PRD §9) |
 | Preview | Vercel | Every PR gets its own URL |
 | Production | Vercel | Every merge to `main` |
+| Smoke test | GitHub Actions | After each production deploy, the E2E suite runs against forgecommunity.dev |
 | Updates | Dependabot | Weekly npm, monthly Actions |
 
 ## Tests
