@@ -45,6 +45,32 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  /* Keep anchored sections clear of the fixed header. */
+  scroll-padding-top: 5rem;
+}
+
+/* The header shows once the hero has scrolled away, so every scroll position
+   below the hero has a path to contact (PRD §9). It switches on instantly
+   (step-end), not as motion: the hero reveal stays the only motion moment.
+   Browsers without scroll-driven animations simply always show it. */
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation: site-header-show linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 85svh;
+    animation-timing-function: step-end;
+  }
+
+  @keyframes site-header-show {
+    from {
+      opacity: 0;
+      visibility: hidden;
+    }
+    to {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 
 body {
