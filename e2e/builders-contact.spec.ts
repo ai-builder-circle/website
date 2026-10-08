@@ -15,16 +15,20 @@ test("builders section lists the three locked items", async ({ page }) => {
   ]);
 });
 
-test("contact section repeats the CTA as the email address", async ({
+test("contact section repeats the CTA and shows the address", async ({
   page,
 }) => {
   const contact = page.getByRole("region", { name: "Contact" });
   await expect(contact).toContainText(
     "Running an event, hiring builders, or want to work with us?",
   );
+  const mailto = "mailto:kananelomofokeng@forgecommunity.dev";
   await expect(
-    contact.getByRole("link", { name: "hello@forgecommunity.dev" }),
-  ).toHaveAttribute("href", "mailto:hello@forgecommunity.dev");
+    contact.getByRole("link", { name: "Email us" }),
+  ).toHaveAttribute("href", mailto);
+  await expect(
+    contact.getByRole("link", { name: "kananelomofokeng@forgecommunity.dev" }),
+  ).toHaveAttribute("href", mailto);
 });
 
 test("footer has the wordmark, tagline, location and links", async ({

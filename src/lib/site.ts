@@ -1,7 +1,7 @@
 export const site = {
   name: "FORGE",
   url: "https://forgecommunity.dev",
-  email: "hello@forgecommunity.dev",
+  email: "kananelomofokeng@forgecommunity.dev",
   location: "Johannesburg",
   tagline: "A community of builders",
   linkedin: "https://www.linkedin.com/company/forgecommunity",

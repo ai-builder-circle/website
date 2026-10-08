@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const CONTACT = "mailto:hello@forgecommunity.dev";
+const CONTACT = "mailto:kananelomofokeng@forgecommunity.dev";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
