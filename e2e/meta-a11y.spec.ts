@@ -40,6 +40,10 @@ test("icons, robots.txt and sitemap.xml are served", async ({ page, request }) =
     .evaluateAll((links) => links.map((l) => l.getAttribute("href")!))) {
     expect((await request.get(href)).status()).toBe(200);
   }
+  // Requested directly by bookmarks, search results and older browsers.
+  const favicon = await request.get("/favicon.ico");
+  expect(favicon.status()).toBe(200);
+  expect(favicon.headers()["content-type"]).toMatch(/icon/);
   expect(await (await request.get("/robots.txt")).text()).toContain(
     "Sitemap: https://forgecommunity.dev/sitemap.xml",
   );
