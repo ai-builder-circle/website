@@ -2,6 +2,7 @@
 // Run manually when the brand changes: `npm run brand-assets`. The outputs are
 // committed: public/og.png is referenced in src/app/layout.tsx; the icons
 // are picked up by Next's metadata file conventions in src/app.
+import { writeFile } from "node:fs/promises";
 import sharp from "sharp";
 
 const CANVAS = "#0a0a0a";
@@ -52,14 +53,40 @@ const glow = (w: number, h: number) =>
   while (inked(end)) end++;
   const f = await sharp(wordmark).extract({ left: 0, top: 0, width: end, height }).toBuffer();
 
-  for (const [file, size] of [["src/app/icon.png", 512], ["src/app/apple-icon.png", 180]] as const) {
-    const glyph = await sharp(f).resize({ height: Math.round(size * 0.5) }).toBuffer();
+  // `scale` is the F's height as a share of the icon; tab-sized icons get a
+  // bigger F so it stays legible at 16px.
+  const icon = async (size: number, scale: number) => {
+    const glyph = await sharp(f).resize({ height: Math.round(size * scale) }).toBuffer();
     const { width: gw = 0, height: gh = 0 } = await sharp(glyph).metadata();
-    await sharp({ create: { width: size, height: size, channels: 4, background: CANVAS } })
+    return sharp({ create: { width: size, height: size, channels: 4, background: CANVAS } })
       .composite([{ input: glyph, left: Math.round((size - gw) / 2), top: Math.round((size - gh) / 2) }])
       .png({ compressionLevel: 9 })
-      .toFile(file);
-  }
+      .toBuffer();
+  };
+
+  await writeFile("src/app/icon.png", await icon(512, 0.5));
+  await writeFile("src/app/apple-icon.png", await icon(180, 0.5));
+
+  // favicon.ico for anything that asks for /favicon.ico directly (bookmarks,
+  // search results, older browsers). An ICO is a small directory of PNGs.
+  const sizes = [16, 32, 48];
+  const pngs = await Promise.all(sizes.map((size) => icon(size, 0.7)));
+  const header = Buffer.alloc(6 + 16 * sizes.length);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type: icon
+  header.writeUInt16LE(sizes.length, 4);
+  let offset = header.length;
+  sizes.forEach((size, i) => {
+    const entry = 6 + 16 * i;
+    header.writeUInt8(size, entry); // width
+    header.writeUInt8(size, entry + 1); // height
+    header.writeUInt16LE(1, entry + 4); // colour planes
+    header.writeUInt16LE(32, entry + 6); // bits per pixel
+    header.writeUInt32LE(pngs[i].length, entry + 8);
+    header.writeUInt32LE(offset, entry + 12);
+    offset += pngs[i].length;
+  });
+  await writeFile("src/app/favicon.ico", Buffer.concat([header, ...pngs]));
 }
 
-console.log("brand-assets: wrote public/og.png, src/app/icon.png, src/app/apple-icon.png");
+console.log("brand-assets: wrote public/og.png, src/app/{icon.png,apple-icon.png,favicon.ico}");
