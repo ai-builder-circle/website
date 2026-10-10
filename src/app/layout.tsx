@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import { site } from "@/lib/site";
@@ -61,7 +62,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${outfit.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-canvas font-sans text-ink">{children}</body>
+      <body className="min-h-full bg-canvas font-sans text-ink">
+        {children}
+        {/* Vercel Web Analytics: cookie-free page views. Only in builds on
+            Vercel (VERCEL=1), where /_vercel/insights exists; local and CI
+            builds would otherwise request a script that 404s. */}
+        {process.env.VERCEL === "1" && <Analytics />}
+      </body>
     </html>
   );
 }

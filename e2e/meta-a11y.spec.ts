@@ -123,3 +123,9 @@ test("production: canonical URL and preview image load without a redirect", asyn
     expect(res.status(), `${url} should not redirect`).toBe(200);
   }
 });
+
+test("production: Vercel Web Analytics is loaded", async ({ page }) => {
+  test.skip(!process.env.BASE_URL, "production-only check");
+  await page.goto("/");
+  await expect(page.locator("script[data-sdkn^='@vercel/analytics']")).toHaveCount(1);
+});
